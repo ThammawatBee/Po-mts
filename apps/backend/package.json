@@ -17,6 +17,8 @@
     "start": "medusa start",
     "predeploy": "medusa db:migrate",
     "dev": "medusa develop",
+    "migrate:thailand": "medusa exec ./src/migration-scripts/migrate-existing-data-to-thailand.ts",
+    "patch:product-import-template": "node ./scripts/patch-product-import-template.js",
     "lint": "medusa lint",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:integration:modules": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
