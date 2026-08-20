@@ -1,6 +1,31 @@
-import { loadEnv, defineConfig } from '@medusajs/framework/utils'
+import { loadEnv, defineConfig } from "@medusajs/framework/utils"
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
+
+const fileProvider = process.env.S3_BUCKET
+  ? {
+      resolve: "@medusajs/medusa/file-s3",
+      id: "s3",
+      options: {
+        file_url: process.env.S3_FILE_URL,
+        access_key_id: process.env.S3_ACCESS_KEY_ID,
+        secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
+        region: process.env.S3_REGION,
+        bucket: process.env.S3_BUCKET,
+        endpoint: process.env.S3_ENDPOINT,
+        additional_client_config: {
+          forcePathStyle: true,
+        },
+      },
+    }
+  : {
+      resolve: "@medusajs/medusa/file-local",
+      id: "local",
+      options: {
+        upload_dir: "static",
+        backend_url: `${process.env.MEDUSA_BACKEND_URL}/static`,
+      },
+    }
 
 module.exports = defineConfig({
   projectConfig: {
@@ -30,16 +55,7 @@ module.exports = defineConfig({
     {
       resolve: "@medusajs/medusa/file",
       options: {
-        providers: [
-          {
-            resolve: "@medusajs/medusa/file-local",
-            id: "local",
-            options: {
-              upload_dir: "static",
-              backend_url: `${process.env.MEDUSA_BACKEND_URL}/static`,
-            },
-          },
-        ],
+        providers: [fileProvider],
       },
     },
   ],
