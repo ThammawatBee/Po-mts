@@ -13,7 +13,7 @@
     "medusa"
   ],
   "scripts": {
-    "build": "medusa build",
+    "build": "medusa build && node ./scripts/patch-product-import-template.js",
     "start": "medusa start",
     "predeploy": "medusa db:migrate",
     "dev": "medusa develop",
